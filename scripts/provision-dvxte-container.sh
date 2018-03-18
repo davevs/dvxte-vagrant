@@ -1,0 +1,2 @@
+echo "provisioning dvxte container"
+
