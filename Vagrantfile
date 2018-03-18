@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
      v.gui = true
      v.memory = 4096
      v.cpus = 2
-     v.name = "XSEC virtualbox optimized trainerbox"
+     v.name = "DVXTE virtualbox optimized trainerbox"
      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
      v.customize ["modifyvm", :id, "--ioapic", "on"]
      v.customize ["modifyvm", :id, "--vram", "64"]
@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
       v.gui = true
       v.memory = 4096
       v.cpus = 2
-      v.name = "XSEC vmware/virtualbox/parallels compatible trainerbox"
+      v.name = "DVXTE vmware/virtualbox/parallels compatible trainerbox"
       v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       v.customize ["modifyvm", :id, "--ioapic", "on"]
       v.customize ["modifyvm", :id, "--vram", "64"]
@@ -38,10 +38,15 @@ Vagrant.configure("2") do |config|
  end
 
    config.vm.provision 'shell' do |s|
-     s.path = 'scripts/initialise.sh'
+     s.path = 'scripts/initialise-privileged.sh'
      s.privileged = true
    end
 
+   config.vm.provision 'shell' do |s|
+     s.path = 'scripts/initialise-unprivileged.sh'
+     s.privileged = false
+   end  
+   
    # ZSH
      config.vm.provision 'shell' do |s|
      s.path = 'scripts/provision-zsh.sh'
@@ -53,9 +58,9 @@ Vagrant.configure("2") do |config|
       s.destination = '~/.zshrc'
     end
 
-   # Lubuntu desktop
+   # MATE desktop
    config.vm.provision 'shell' do |s|
-     s.path = 'scripts/provision-lubuntu.sh'
+     s.path = 'scripts/provision-desktop-gnome.sh'
      s.privileged = true
    end	
 	
@@ -77,11 +82,11 @@ Vagrant.configure("2") do |config|
      s.privileged = true
    end
 
-   # Chrome
-   config.vm.provision 'shell' do |s|
-     s.path = 'scripts/provision-chrome.sh'
-     s.privileged = true
-   end
+   # # Chrome
+   # config.vm.provision 'shell' do |s|
+     # s.path = 'scripts/provision-chrome.sh'
+     # s.privileged = true
+   # end
 
   # provision ZAP
   config.vm.provision 'shell' do |s|
@@ -107,9 +112,6 @@ Vagrant.configure("2") do |config|
     s.privileged = true
   end
 
-  # trigger reload
-  config.vm.provision :reload
-
   # provision sqlmap
   config.vm.provision 'shell' do |s|
     s.path = 'scripts/provision-sqlmap.sh'
@@ -122,4 +124,7 @@ Vagrant.configure("2") do |config|
     s.privileged = true
   end
 
+  # trigger reload
+  config.vm.provision :reload  
+  
 end

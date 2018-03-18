@@ -9,8 +9,5 @@ sudo apt-get update
 echo "Installing required packages..."
 sudo apt-get install -y -q git python-software-properties build-essential autotools-dev automake pkg-config ant zsh expect
 
-echo "Creating folders"
-mkdir -p /home/vagrant/workspace
-mkdir -p /home/vagrant/tools
 
 
